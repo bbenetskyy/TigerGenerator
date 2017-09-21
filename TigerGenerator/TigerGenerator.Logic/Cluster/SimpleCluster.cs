@@ -5,7 +5,7 @@ namespace TigerGenerator.Logic.Cluster
 {
     public class SimpleCluster
     {
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public string LeftTop { get; set; }
         public string LeftBottom { get; set; }
@@ -17,7 +17,7 @@ namespace TigerGenerator.Logic.Cluster
         {
             get
             {
-                _logger.Info($"SimpleCluster get index {index}");
+                Logger.Info($"SimpleCluster get index {index}");
                 while (index > 3)
                 {
                     index -= 4;
@@ -33,14 +33,14 @@ namespace TigerGenerator.Logic.Cluster
                     case 3:
                         return RigthBottom;
                     default:
-                        _logger.Warn($"Index ({index}) our of range!");
+                        Logger.Warn($"Index ({index}) our of range!");
                         return string.Empty;
                 }
             }
 
             set
             {
-                _logger.Info($"SimpleCluster set index {index}");
+                Logger.Info($"SimpleCluster set index {index}");
                 while (index > 3)
                 {
                     index -= 4;
@@ -60,7 +60,7 @@ namespace TigerGenerator.Logic.Cluster
                         RigthBottom = value;
                         break;
                     default:
-                        _logger.Warn($"Index ({index}) our of range!");
+                        Logger.Warn($"Index ({index}) our of range!");
                         break;
                 }
             }
