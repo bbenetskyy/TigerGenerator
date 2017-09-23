@@ -5,7 +5,8 @@ namespace TigerGenerator.Logic.Models
 {
     public class Response
     {
-        public bool Success { get; set; }
-        public List<Exception> Errors { get; set; }
+        public bool Success { get; set; } = true;
+        public List<Exception> Errors { get; } = new List<Exception>();
+        public object ReturnValue { get; set; }
     }
 }

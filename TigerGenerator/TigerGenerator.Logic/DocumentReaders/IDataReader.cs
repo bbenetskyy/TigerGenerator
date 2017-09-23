@@ -9,7 +9,7 @@ namespace TigerGenerator.Logic.DocumentReaders
 {
     public interface IDataReader
     {
-
+        object ReaderDetails { get; set; }
         Response ReadData();
     }
 }

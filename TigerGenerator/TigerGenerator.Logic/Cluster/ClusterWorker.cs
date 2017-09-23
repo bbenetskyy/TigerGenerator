@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using NLog;
 using TigerGenerator.Logic.Cluster.Interfaces;
 using TigerGenerator.Logic.Models;
+using JetBrains.Annotations;
+using ToolsPortable;
 
 namespace TigerGenerator.Logic.Cluster
 {
@@ -17,6 +19,7 @@ namespace TigerGenerator.Logic.Cluster
         public List<Player> Players { get; set; }
         public List<SimpleCluster> Clusters { get; set; }
 
+        [NotNull]
         public virtual Response Work()
         {
             Logger.Info("Start Work.");
@@ -33,22 +36,60 @@ namespace TigerGenerator.Logic.Cluster
             foreach (var player in Players)
             {
                 UpdateIndex(sCluster, ref index);
-                sCluster[index] = SelectPlayer(lastPlayer);
+                sCluster[index] = SelectPlayer(lastPlayer)?.ToString();
             }
 
             stopwatch.Stop();
             Logger.Info("Finish Work.");
             Logger.Info($"Result Clusters = {Clusters.Count}");
             Logger.Info($"Work time = {stopwatch.Elapsed}");
+
+            return new Response();
         }
 
-        private Player SelectPlayer(Player lastPlayer)
+        [CanBeNull]
+        protected virtual  Player SelectPlayer([CanBeNull] Player lastPlayer)
         {
-            throw new NotImplementedException();
+            if (Players == null || Players.Count == 0)
+                return null;
+
+            Player resPlayer = null;
+            var random = new Random();
+
+
+            if (lastPlayer == null)
+            {
+                resPlayer = Players[random.Next(0, Players.Count - 1)];
+            }
+            else
+            {
+                var otherTeamPlayers = Players.Where(p => p.Team != lastPlayer.Team).ToList();
+                if (otherTeamPlayers.Count != 0)
+                {
+                    
+                }
+                else
+                {
+                    var sameTeamPlayers = Players.Where(p => p.Team == lastPlayer.Team).ToList();
+                    if (sameTeamPlayers.Count != 0)
+                    {
+                        var otheMentorPlayers = sameTeamPlayers.Where(p => p.Mentor != lastPlayer.Mentor).ToList();
+                        resPlayer = otheMentorPlayers.Count != 0
+                            ? otheMentorPlayers[random.Next(0, otheMentorPlayers.Count - 1)]
+                            : sameTeamPlayers[random.Next(0, sameTeamPlayers.Count - 1)];
+                    }
+                }
+            }
+
+            lastPlayer = resPlayer;
+            return resPlayer;
         }
 
         protected virtual void UpdateIndex(SimpleCluster sCluster, ref int index)
         {
+            if (sCluster == null)
+                sCluster = new SimpleCluster();
+
             index++;
             if (index <= 3) return;
 

@@ -12,6 +12,6 @@ namespace TigerGenerator.Logic.Models
 
         public string Weight { get; set; }
 
-        public List<Player> Players { get; set; }
+        public List<Player> Players { get; } = new List<Player>();
     }
 }
