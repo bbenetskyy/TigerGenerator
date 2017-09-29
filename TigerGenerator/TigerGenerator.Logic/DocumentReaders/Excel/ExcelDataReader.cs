@@ -11,7 +11,7 @@ using TigerGenerator.Logic.Models;
 
 namespace TigerGenerator.Logic.DocumentReaders.Excel
 {
-    public class ExcelDataReader : IDataReader
+    public class ExcelDataReader : IDataReader, IDisposable
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -35,8 +35,13 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         public string FileName { get; set; }
 
         ~ExcelDataReader()
-            {
-            //cleanup
+        {
+            ReleaseMemory();
+        }
+
+        private void ReleaseMemory()
+        {
+//cleanup
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -45,14 +50,23 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
             //  ex: [somthing].[something].[something] is bad
 
             //release com objects to fully kill excel process from running in the background
-            if (_usedRange != null) Marshal.ReleaseComObject(_usedRange);
-            if (_sheet != null) Marshal.ReleaseComObject(_sheet);
+            if (_usedRange != null)
+            {
+                Marshal.ReleaseComObject(_usedRange);
+                _usedRange = null;
+            }
+            if (_sheet != null)
+            {
+                Marshal.ReleaseComObject(_sheet);
+                _sheet = null;
+            }
 
             if (_wb != null)
             {
                 //close and release
                 _wb.Close();
                 Marshal.ReleaseComObject(_wb);
+                _wb = null;
             }
 
             if (_excel != null)
@@ -60,6 +74,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
                 //quit and release
                 _excel.Quit();
                 Marshal.ReleaseComObject(_excel);
+                _excel = null;
             }
         }
 
@@ -130,5 +145,9 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
             return resList;
         }
 
+        public void Dispose()
+        {
+            ReleaseMemory();
+        }
     }
 }

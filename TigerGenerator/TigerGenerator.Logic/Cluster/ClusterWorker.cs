@@ -17,7 +17,7 @@ namespace TigerGenerator.Logic.Cluster
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public List<Player> Players { get; set; }
-        public List<SimpleCluster> Clusters { get; set; }
+        public List<SimpleCluster> Clusters { get;  } = new List<SimpleCluster>();
 
         [NotNull]
         public virtual Response Work()
@@ -35,8 +35,8 @@ namespace TigerGenerator.Logic.Cluster
 
             foreach (var player in Players)
             {
-                UpdateIndex(sCluster, ref index);
-                sCluster[index] = SelectPlayer(lastPlayer)?.ToString();
+                UpdateIndex(ref sCluster, ref index);
+                sCluster[index] = SelectPlayer(ref lastPlayer)?.ToString();
             }
 
             stopwatch.Stop();
@@ -48,7 +48,7 @@ namespace TigerGenerator.Logic.Cluster
         }
 
         [CanBeNull]
-        protected virtual  Player SelectPlayer([CanBeNull] Player lastPlayer)
+        protected virtual  Player SelectPlayer([CanBeNull]ref Player lastPlayer)
         {
             if (Players == null || Players.Count == 0)
                 return null;
@@ -56,24 +56,24 @@ namespace TigerGenerator.Logic.Cluster
             Player resPlayer = null;
             var random = new Random();
 
-
             if (lastPlayer == null)
             {
                 resPlayer = Players[random.Next(0, Players.Count - 1)];
             }
             else
             {
-                var otherTeamPlayers = Players.Where(p => p.Team != lastPlayer.Team).ToList();
+                var mLastPlayer = lastPlayer;
+                var otherTeamPlayers = Players.Where(p => p.Team != mLastPlayer.Team).ToList();
                 if (otherTeamPlayers.Count != 0)
                 {
-                    
+                    resPlayer = otherTeamPlayers[random.Next(0, otherTeamPlayers.Count - 1)];
                 }
                 else
                 {
-                    var sameTeamPlayers = Players.Where(p => p.Team == lastPlayer.Team).ToList();
+                    var sameTeamPlayers = Players.Where(p => p.Team == mLastPlayer.Team).ToList();
                     if (sameTeamPlayers.Count != 0)
                     {
-                        var otheMentorPlayers = sameTeamPlayers.Where(p => p.Mentor != lastPlayer.Mentor).ToList();
+                        var otheMentorPlayers = sameTeamPlayers.Where(p => p.Mentor != mLastPlayer.Mentor).ToList();
                         resPlayer = otheMentorPlayers.Count != 0
                             ? otheMentorPlayers[random.Next(0, otheMentorPlayers.Count - 1)]
                             : sameTeamPlayers[random.Next(0, sameTeamPlayers.Count - 1)];
@@ -85,10 +85,13 @@ namespace TigerGenerator.Logic.Cluster
             return resPlayer;
         }
 
-        protected virtual void UpdateIndex(SimpleCluster sCluster, ref int index)
+        protected virtual void UpdateIndex(ref SimpleCluster sCluster, ref int index)
         {
             if (sCluster == null)
+            {
                 sCluster = new SimpleCluster();
+                Clusters.Add(sCluster);
+            }   
 
             index++;
             if (index <= 3) return;

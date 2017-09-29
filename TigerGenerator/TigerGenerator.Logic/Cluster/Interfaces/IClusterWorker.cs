@@ -8,7 +8,7 @@ namespace TigerGenerator.Logic.Cluster.Interfaces
     {
         List<Player> Players { get; set; }
 
-        List<SimpleCluster> Clusters { get; set; }
+        List<SimpleCluster> Clusters { get; }
 
         Response Work();
     }
