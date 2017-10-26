@@ -109,13 +109,14 @@ namespace TigerGenerator.Controls.Forms
 
                 worker.Players = group.Players;
                 worker.Work();
-                var id = 0;
+                var id = 1;
                 foreach (var cluster in worker.Clusters)
                 {
-                    _document.Shapes[$"Player_{id+1}"].TextFrame.TextRange.Text = cluster[id++];
-                    _document.Shapes[$"Player_{id+1}"].TextFrame.TextRange.Text = cluster[id++];
-                    _document.Shapes[$"Player_{id+1}"].TextFrame.TextRange.Text = cluster[id++];
-                    _document.Shapes[$"Player_{id+1}"].TextFrame.TextRange.Text = cluster[id++];
+                    foreach (var clusterItem in cluster)
+                    {
+                        _document.Shapes[$"Player_{id++}"].TextFrame.TextRange.Text = clusterItem;
+
+                    }
                 }
 
                 _document.Save();

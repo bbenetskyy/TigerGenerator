@@ -1,9 +1,11 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using NLog;
 
 namespace TigerGenerator.Logic.Cluster
 {
-    public class SimpleCluster
+    public class SimpleCluster : IEnumerable<string>
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -64,6 +66,23 @@ namespace TigerGenerator.Logic.Cluster
                         break;
                 }
             }
+        }
+
+        public IEnumerator<string> GetEnumerator()
+        {
+            return new List<string>
+                {
+                    LeftTop,
+                    LeftBottom,
+                    RightTop,
+                    RigthBottom
+                }
+                .GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

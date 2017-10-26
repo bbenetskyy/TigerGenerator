@@ -33,7 +33,7 @@ namespace TigerGenerator.Logic.Cluster
             stopwatch.Start();
             Clusters.Clear();
 
-            foreach (var player in Players)
+            for (var i = 0; i < Players.Count; i++)
             {
                 UpdateIndex(ref sCluster, ref index);
                 sCluster[index] = SelectPlayer(ref lastPlayer)?.ToString();
@@ -50,27 +50,28 @@ namespace TigerGenerator.Logic.Cluster
         [CanBeNull]
         protected virtual  Player SelectPlayer([CanBeNull]ref Player lastPlayer)
         {
-            if (Players == null || Players.Count == 0)
-                return null;
-
             Player resPlayer = null;
             var random = new Random();
+            var notUsedPlayers = Players?.Where(p => !p.Used).ToList();
+
+            if (notUsedPlayers == null || notUsedPlayers.Count == 0)
+                return null;
 
             if (lastPlayer == null)
             {
-                resPlayer = Players[random.Next(0, Players.Count - 1)];
+                resPlayer = notUsedPlayers[random.Next(0, notUsedPlayers.Count - 1)];
             }
             else
             {
                 var mLastPlayer = lastPlayer;
-                var otherTeamPlayers = Players.Where(p => p.Team != mLastPlayer.Team).ToList();
+                var otherTeamPlayers = notUsedPlayers.Where(p => p.Team != mLastPlayer.Team).ToList();
                 if (otherTeamPlayers.Count != 0)
                 {
                     resPlayer = otherTeamPlayers[random.Next(0, otherTeamPlayers.Count - 1)];
                 }
                 else
                 {
-                    var sameTeamPlayers = Players.Where(p => p.Team == mLastPlayer.Team).ToList();
+                    var sameTeamPlayers = notUsedPlayers.Where(p => p.Team == mLastPlayer.Team).ToList();
                     if (sameTeamPlayers.Count != 0)
                     {
                         var otheMentorPlayers = sameTeamPlayers.Where(p => p.Mentor != mLastPlayer.Mentor).ToList();
@@ -80,7 +81,8 @@ namespace TigerGenerator.Logic.Cluster
                     }
                 }
             }
-
+            if (resPlayer != null)
+                resPlayer.Used = true;
             lastPlayer = resPlayer;
             return resPlayer;
         }
