@@ -61,6 +61,24 @@ namespace TigerGenerator.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Was raised {0} errors. Please check Logs..
+        /// </summary>
+        internal static string SplashForm_Errors_Log {
+            get {
+                return ResourceManager.GetString("SplashForm_Errors_Log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some exception was thrown, please see logs.
+        /// </summary>
+        internal static string SplashForm_Errors_Message {
+            get {
+                return ResourceManager.GetString("SplashForm_Errors_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap TigerLogo {

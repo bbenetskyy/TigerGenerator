@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -16,9 +17,11 @@ using NLog;
 using TigerGenerator.Logic.DocumentReaders.Excel;
 using TigerGenerator.Logic.Models;
 using Microsoft.Office.Interop.Word;
+using TigerGenerator.Controls.Properties;
 using TigerGenerator.Logic.Cluster;
 using TigerGenerator.Logic.Cluster.Interfaces;
 using Application = Microsoft.Office.Interop.Word.Application;
+using System = Microsoft.Office.Interop.Word.System;
 using Task = System.Threading.Tasks.Task;
 
 namespace TigerGenerator.Controls.Forms
@@ -61,11 +64,17 @@ namespace TigerGenerator.Controls.Forms
                             }
                             else
                             {
-                                XtraMessageBox.Show($"Was raised {response.Errors.Count} errors. Please check Logs.");
+                                XtraMessageBox.Show(string.Format(Resources.SplashForm_Errors_Log,response.Errors.Count));
                                 foreach (var exception in response.Errors)
                                 {
                                     Logger.Error(exception);
                                 }
+                                Invoke(new Action(() =>
+                                {
+                                    lInfo.Text = Resources.SplashForm_Errors_Message;
+                                }));
+                                SystemSounds.Beep.Play();
+                                Thread.Sleep(2000);
                             }
                         }
                     }

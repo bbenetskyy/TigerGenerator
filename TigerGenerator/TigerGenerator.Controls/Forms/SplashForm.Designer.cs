@@ -54,7 +54,7 @@
             this.lEmail.Name = "lEmail";
             this.lEmail.Size = new System.Drawing.Size(143, 13);
             this.lEmail.TabIndex = 6;
-            this.lEmail.Text = "bogdanbenetskyy@gmail.com";
+            this.lEmail.Text = "benetskyybogdan@gmail.com";
             // 
             // lInfo
             // 
