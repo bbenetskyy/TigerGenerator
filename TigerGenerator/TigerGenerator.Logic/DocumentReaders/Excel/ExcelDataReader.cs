@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using Microsoft.Office.Interop.Excel;
@@ -11,7 +12,7 @@ using TigerGenerator.Logic.Models;
 
 namespace TigerGenerator.Logic.DocumentReaders.Excel
 {
-    public class ExcelDataReader : IDataReader, IDisposable
+    public class ExcelDataReader : IDataReader, IDisposable, INotifyChanges
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -21,6 +22,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         private Worksheet _sheet = null;
         private Range _usedRange = null;
 
+        public event EventHandler<string> SendNotification;
         public object ReaderDetails
         {
             get { return _readerDetails; }
@@ -80,7 +82,9 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
 
         public Response ReadData()
         {
+            //todo move all strings to resources even log strings
             Logger.Info($"Starting ReadData from FileName =  {FileName}; ReaderDetails = {ReaderDetails}");
+            SendNotification?.Invoke(this,"Reading the file...");
 
             var stopwatch = new Stopwatch();
             var response = new Response();
@@ -99,8 +103,12 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
             {
                 _usedRange = _sheet.UsedRange;
                 response.ReturnValue = GetDataModels(_usedRange, (1, 1));
+                if (!((IEnumerable<PlayersGroup>) response.ReturnValue).Any())
+                {
+                    response.Success = false;
+                    response.Errors.Add(new FileLoadException("Values not found"));
+                }
             }
-
             stopwatch.Stop();
             Logger.Info($"Finish ReadData. Success = {response.Success}; Errors = {response.Errors.Count}");
             Logger.Info($"ReadData reading time {stopwatch.Elapsed}");
@@ -149,5 +157,6 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         {
             ReleaseMemory();
         }
+
     }
 }

@@ -55,35 +55,42 @@ namespace TigerGenerator.Controls.Forms
                         //todo add Unity Container
                         using (var excelDataReader = new ExcelDataReader())
                         {
+                            excelDataReader.SendNotification += SendNotification;
                             excelDataReader.ReaderDetails = fileName;
                             var response = excelDataReader.ReadData();
 
                             if (response.Success)
                             {
                                 WritePlayers(response.ReturnValue as IEnumerable<PlayersGroup>);
+                                SendNotification(null,"Work Completed.");
                             }
                             else
                             {
-                                XtraMessageBox.Show(string.Format(Resources.SplashForm_Errors_Log,response.Errors.Count));
                                 foreach (var exception in response.Errors)
                                 {
                                     Logger.Error(exception);
                                 }
-                                Invoke(new Action(() =>
-                                {
-                                    lInfo.Text = Resources.SplashForm_Errors_Message;
-                                }));
-                                SystemSounds.Beep.Play();
-                                Thread.Sleep(2000);
+                                SendNotification(null,
+                                    string.Format(Resources.SplashForm_Errors_Log, response.Errors.Count));
                             }
                         }
                     }
+                    SystemSounds.Beep.Play();
+                    Thread.Sleep(2000);
                     MainForm.Finished = true;
                 }
             });
             t.IsBackground = true;
             t.SetApartmentState(ApartmentState.STA);
             t.Start();
+        }
+
+        private void SendNotification(object sender, string e)
+        {
+            Invoke(new Action(() =>
+            {
+                lInfo.Text = e;
+            }));
         }
 
         private void WritePlayers(IEnumerable<PlayersGroup> playersGroups)
@@ -107,6 +114,7 @@ namespace TigerGenerator.Controls.Forms
             IClusterWorker worker = new ClusterWorker();
             foreach (var group in playersGroups)
             {
+                SendNotification(null,$"Work with group {group.Type} {group.Weight}");
                 var templateFileName = GetTemplateFileName(group.Players.Count);
                 var tigerFile = Path.Combine(tigerDirectory, $"{group.Type}_{group.Weight}.docx");
                 File.Copy(templateFileName, tigerFile, true);
@@ -124,7 +132,6 @@ namespace TigerGenerator.Controls.Forms
                     foreach (var clusterItem in cluster)
                     {
                         _document.Shapes[$"Player_{id++}"].TextFrame.TextRange.Text = clusterItem;
-
                     }
                 }
 
