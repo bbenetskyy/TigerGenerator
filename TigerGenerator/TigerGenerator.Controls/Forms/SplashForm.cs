@@ -123,6 +123,9 @@ namespace TigerGenerator.Controls.Forms
                 _document = _application.Documents.Open(templateFileName);
                 
                 _document.Shapes["TextTitle"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
+                if(group.Players.Count > 16)
+                    _document.Shapes["TextTitle2"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
+
 
                 worker.Players = group.Players;
                 worker.Work();
@@ -147,12 +150,14 @@ namespace TigerGenerator.Controls.Forms
         private string GetTemplateFileName(int playersCount)
         {
             var fileTemplate =Path.Combine(Directory.GetCurrentDirectory(),@"Templates\Template{0}.docx");
-            var id = 0;
+            int id;
             if (playersCount <= 4)
                 id = 4;
             else if (playersCount <= 8)
                 id = 8;
-            else id = 16;
+            else if (playersCount <= 16)
+                id = 16;
+            else id = 32;
             return string.Format(fileTemplate, id);
         }
 
