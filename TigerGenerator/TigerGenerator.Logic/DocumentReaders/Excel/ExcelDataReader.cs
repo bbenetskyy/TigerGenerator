@@ -129,8 +129,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         {
             var resList = new List<PlayersGroup>();
             PlayersGroup playersGroup = null;
-
-            for (var row = positions.Row; row < range.Rows.Count; row++)
+            for (var row = positions.Row; row <= range.Rows.Count; row++)
             {
                 if (PlayerGroupReaderHelper.IsNewGroup(range, row, positions.Column))
                 {
