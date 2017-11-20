@@ -117,5 +117,8 @@
   <ItemGroup>
     <None Include="Resources\TigerLogo.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\Template4.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
