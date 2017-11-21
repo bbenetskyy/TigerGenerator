@@ -1,12 +1,12 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using Microsoft.Office.Interop.Excel;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
-using Microsoft.Office.Interop.Excel;
-using NLog;
 using TigerGenerator.Logic.Helpers;
 using TigerGenerator.Logic.Models;
 
@@ -29,8 +29,8 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
             set
             {
                 _readerDetails = value;
-                if (_readerDetails is string)
-                    FileName = (string) _readerDetails;
+                if (_readerDetails is string fileName)
+                    FileName = fileName;
             }
         }
 
@@ -43,7 +43,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
 
         private void ReleaseMemory()
         {
-//cleanup
+            //cleanup
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
@@ -84,7 +84,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         {
             //todo move all strings to resources even log strings
             Logger.Info($"Starting ReadData from FileName =  {FileName}; ReaderDetails = {ReaderDetails}");
-            SendNotification?.Invoke(this,"Reading the file...");
+            SendNotification?.Invoke(this, "Reading the file...");
 
             var stopwatch = new Stopwatch();
             var response = new Response();
@@ -96,16 +96,14 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
 
             if (_sheet == null)
             {
-                response.Success = false;
                 response.Errors.Add(new FileLoadException("Sheet not found"));
             }
             else
             {
                 _usedRange = _sheet.UsedRange;
                 response.ReturnValue = GetDataModels(_usedRange, (1, 1));
-                if (!((IEnumerable<PlayersGroup>) response.ReturnValue).Any())
+                if (!((IEnumerable<PlayersGroup>)response.ReturnValue).Any())
                 {
-                    response.Success = false;
                     response.Errors.Add(new FileLoadException("Values not found"));
                 }
             }
@@ -116,7 +114,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         }
 
 
-       [CanBeNull]
+        [CanBeNull]
         private Worksheet GetFirstSheet([NotNull] Workbook workbook)
         {
             return workbook.Sheets.Count != 0
@@ -144,7 +142,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
                     }
                     else
                     {
-                        playersGroup.Players.Add(PlayerGroupReaderHelper.GetPlayer(range,row,positions.Column));
+                        playersGroup.Players.Add(PlayerGroupReaderHelper.GetPlayer(range, row, positions.Column));
                     }
                 }
             }

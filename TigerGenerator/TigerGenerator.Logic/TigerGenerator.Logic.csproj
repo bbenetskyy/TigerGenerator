@@ -62,6 +62,8 @@
     <Compile Include="Cluster\Interfaces\IClusterWorker.cs" />
     <Compile Include="DocumentReaders\Excel\ExcelDataReader.cs" />
     <Compile Include="DocumentReaders\IDataReader.cs" />
+    <Compile Include="DocumentWriters\IDataWriter.cs" />
+    <Compile Include="DocumentWriters\Text\TextDataWriter.cs" />
     <Compile Include="Helpers\INotifyChanges.cs" />
     <Compile Include="Helpers\PlayerGroupReaderHelper.cs" />
     <Compile Include="Models\Player.cs" />

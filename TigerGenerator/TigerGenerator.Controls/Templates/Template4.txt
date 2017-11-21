@@ -1,33 +1,183 @@
 ﻿1. Player
-2. Player									9. Player
-3. Player														13.Player
-4. Player			12.Player				12.Player
+2. Player							9. Player
+3. Player												13.Player
+4. Player			12.Player		9.Player
 5. Player			12.Player
 
 1. Player
 2. Player			9. Player
 3. Player								13.Player
-4. Player			12.Player
+4. Player			9.Player
+5. Player												14.Player
+6. Player			9. Player			13. Player
+
+1. Player
+2. Player							9. Player
+3. Player											13.Player
+4. Player							9.Player						14.Player
+5. Player	
+6. Player			12. Player		9. Player		13.Player
+7. Player			12. Player	
+
+1. Player
+2. Player			9. Player
+3. Player								13.Player
+4. Player			9.Player
+5. Player											14.Player
+6. Player			9. Player
+7. Player								13.Player
+8. Player			9.Player
 
 
 1. Player
-2. Player									9. Player
-3. Player														13.Player
-4. Player									10.Player							16.Player
-5. Player														14.Player							18.Player
-6. Player									11.Player							17.Player
-7. Player														15.Player
-8. Player									12.Player
-9. Player																										19.Player
-10. Player									9. Player
-11. Player														13.Player
-12. Player									10.Player							16.Player
-13. Player														14.Player							18.Player
-14. Player									11.Player							17.Player
-15. Player														15.Player
-16. Player			12.Player				12.Player
-17. Player			12.Player
+2. Player					9. Player
+3. Player										13.Player
+4. Player					9.Player
+5. Player													14.Player
+6. Player					9. Player
+7. Player										13.Player
+8. Player		12. Player	9.Player
+9. Player		12. Player
 
+
+1. Player
+2. Player			9. Player
+3. Player								13.Player
+4. Player			12.Player
+5. Player											14.Player
+6. Player			9. Player									15.Player
+7. Player								13.Player
+8. Player			12.Player						14.Player
+9. Player				
+10.Player			12.Player			13.Player
+
+
+1. Player
+2. Player						9. Player
+3. Player											13.Player
+4. Player						9.Player
+5. Player															14.Player
+6. Player						9. Player						
+7. Player											13.Player						15.Player
+8. Player						9.Player
+9. Player												
+10.Player			12.Player	9.Player			13.Player 		14.Player
+11.Player			12.Player
+
+1. Player
+2. Player			9. Player
+3. Player								13.Player
+4. Player			12.Player
+5. Player												14.Player
+6. Player			9. Player								
+7. Player								13.Player	
+8. Player			12.Player											15.Player
+9. Player														
+10.Player			12.Player				
+11.Player								13.Player		14.Player
+12.Player			12.Player
+
+1. Player
+2. Player			9. Player
+3. Player									13.Player
+4. Player			9. Player
+5. Player														14.Player
+6. Player			9. Player
+7. Player									13.Player
+8. Player			9. Player
+9. Player																		15.Player
+10.Player			9. Player
+11.Player									13.Player
+12.Player			9. Player
+13.Player														14.Player
+14.Player			9. Player				13.Player
+
+1. Player
+2. Player				9. Player
+3. Player								13.Player
+4. Player				9. Player
+5. Player											14.Player
+6. Player				9. Player
+7. Player								13.Player
+8. Player				9. Player
+9. Player															15.Player
+10.Player				9. Player
+11.Player								13.Player
+12.Player				9. Player
+13.Player											14.Player
+14.Player				9. Player
+15.Player								13.Player
+16.Player				9. Player
+
+1. Player
+2. Player							9. Player
+3. Player											13.Player
+4. Player							9. Player
+5. Player														14.Player
+6. Player							9. Player
+7. Player											13.Player
+8. Player							9. Player
+9. Player																		15.Player
+10.Player							9. Player
+11.Player											13.Player
+12.Player							9. Player
+13.Player														14.Player
+14.Player							9. Player
+15.Player											13.Player
+16.Player			12. Player		9. Player
+17.Player			12. Player
+
+1. Player
+2. Player				9. Player
+3. Player								13.Player
+4. Player				9. Player
+5. Player											14.Player
+6. Player				9. Player
+7. Player								13.Player
+8. Player				9. Player
+9. Player															15.Player
+10.Player				9. Player
+11.Player								13.Player
+12.Player				9. Player
+13.Player											14.Player
+14.Player				9. Player
+15.Player								13.Player
+16.Player				9. Player
+17.Player								13.Player
+18.Player				9. Player
+
+1. Player
+2. Player				9. Player
+3. Player								13.Player
+4. Player				9. Player
+5. Player											14.Player
+6. Player				9. Player
+7. Player								13.Player
+8. Player				9. Player
+9. Player															15.Player
+10.Player				9. Player
+11.Player								13.Player
+12.Player				9. Player
+13.Player											14.Player
+14.Player				9. Player
+15.Player								13.Player
+16.Player				9. Player
+17.Player																				16.Player
+18.Player				9. Player
+19.Player								13.Player
+20.Player				9. Player
+21.Player											14.Player
+22.Player				9. Player
+23.Player								13.Player
+24.Player				9. Player
+25.Player															15.Player
+26.Player				9. Player
+27.Player								13.Player
+28.Player				9. Player
+29.Player											14.Player
+30.Player				9. Player
+31.Player								13.Player
+32.Player				9. Player
 
 var spaces = ' '*{Name}.Length*1.5;
 var last = Count;
@@ -58,6 +208,10 @@ if(Count % 2 != 0)
 
 <<<8>>>
 
+
+
+<<<<LAST ELEMENT>>>>
+
 if(Count % 2 != 0)
 {
 <<↑>> spaces/2 #++last spaces/2 #last+2
@@ -69,5 +223,48 @@ else
 <<↑>> spaces #++last. 
 }
 
+<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
+#id++. {Name}
+#id++. {Name}
+
+----------------------------
+
+<<each second element>>
+
+ spaces #++last. 
+
+
+ ----------------------------
+
+
+ if(Count > 2)
+ <<each 3 element>>
+
+ spaces #++last. 
+
+ ----------------------------
+
+ if(Count >= 4)
+ <<each 3 element>>
+
+ spaces #++last. 
+
+ ----------------------------
+
+ 
+ if(Count > 5)
+ <<ONCE 3 element>>
+  <<next 3+4 element>>
+
+ spaces #++last. 
+
+ ----------------------------
+
+  if(Count > 8)
+ <<each 5 element>>
+
+ spaces #++last. 
+
+ ----------------------------

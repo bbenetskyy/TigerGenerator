@@ -1,28 +1,20 @@
-﻿using System;
+﻿using DevExpress.XtraSplashScreen;
+using Microsoft.Office.Interop.Word;
+using NLog;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Media;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using DevExpress.XtraEditors;
-using DevExpress.XtraSplashScreen;
-using NLog;
-using TigerGenerator.Logic.DocumentReaders.Excel;
-using TigerGenerator.Logic.Models;
-using Microsoft.Office.Interop.Word;
 using TigerGenerator.Controls.Properties;
 using TigerGenerator.Logic.Cluster;
 using TigerGenerator.Logic.Cluster.Interfaces;
+using TigerGenerator.Logic.DocumentReaders.Excel;
+using TigerGenerator.Logic.Models;
 using Application = Microsoft.Office.Interop.Word.Application;
-using System = Microsoft.Office.Interop.Word.System;
-using Task = System.Threading.Tasks.Task;
 
 namespace TigerGenerator.Controls.Forms
 {
@@ -62,7 +54,7 @@ namespace TigerGenerator.Controls.Forms
                             if (response.Success)
                             {
                                 WritePlayers(response.ReturnValue as IEnumerable<PlayersGroup>);
-                                SendNotification(null,"Work Completed.");
+                                SendNotification(null, "Work Completed.");
                             }
                             else
                             {
@@ -106,50 +98,40 @@ namespace TigerGenerator.Controls.Forms
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var tigerDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "TigerGenerator");
-            if (!Directory.Exists(tigerDirectory))
-                Directory.CreateDirectory(tigerDirectory);
+
 
             IClusterWorker worker = new ClusterWorker();
             foreach (var group in playersGroups)
             {
-                SendNotification(null,$"Work with group {group.Type} {group.Weight}");
-                var templateFileName = GetTemplateFileName(group.Players.Count);
-                var tigerFile = Path.Combine(tigerDirectory, $"{group.Type}_{group.Weight}.docx");
-                File.Copy(templateFileName, tigerFile, true);
-
-                _application = new Application();
-                _document = _application.Documents.Open(templateFileName);
-                
-                _document.Shapes["TextTitle"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
-                if(group.Players.Count > 16)
-                    _document.Shapes["TextTitle2"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
+                SendNotification(null, $"Work with group {group.Type} {group.Weight}");
+                //_document.Shapes["TextTitle"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
+                //if(group.Players.Count > 16)
+                //    _document.Shapes["TextTitle2"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
 
 
-                worker.Players = group.Players;
-                worker.Work();
-                var id = 1;
+                //worker.Players = group.Players;
+                //worker.Work();
+                //var id = 1;
                 foreach (var cluster in worker.Clusters)
                 {
                     foreach (var clusterItem in cluster)
                     {
-                        _document.Shapes[$"Player_{id++}"].TextFrame.TextRange.Text = clusterItem;
+                        //_document.Shapes[$"Player_{id++}"].TextFrame.TextRange.Text = clusterItem;
                     }
                 }
 
-                _document.Save();
-                ReleaseMemory();
+                //_document.Save();
+                //ReleaseMemory();
             }
 
-            ReleaseMemory();
+            //ReleaseMemory();
             stopwatch.Stop();
             Logger.Info($"End WritePLayers. Time = {stopwatch.Elapsed}");
         }
 
         private string GetTemplateFileName(int playersCount)
         {
-            var fileTemplate =Path.Combine(Directory.GetCurrentDirectory(),@"Templates\Template{0}.docx");
+            var fileTemplate = Path.Combine(Directory.GetCurrentDirectory(), @"Templates\Template{0}.docx");
             int id;
             if (playersCount <= 4)
                 id = 4;
