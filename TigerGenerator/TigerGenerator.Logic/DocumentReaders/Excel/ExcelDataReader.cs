@@ -12,7 +12,7 @@ using TigerGenerator.Logic.Models;
 
 namespace TigerGenerator.Logic.DocumentReaders.Excel
 {
-    public class ExcelDataReader : IDataReader, IDisposable, INotifyChanges
+    public class ExcelDataReader : IDataReader, INotifyChanges
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 

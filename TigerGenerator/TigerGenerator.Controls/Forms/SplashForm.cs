@@ -6,15 +6,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Media;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using TigerGenerator.Controls.Properties;
 using TigerGenerator.Logic.Cluster;
 using TigerGenerator.Logic.Cluster.Interfaces;
 using TigerGenerator.Logic.DocumentReaders.Excel;
+using TigerGenerator.Logic.DocumentWriters;
+using TigerGenerator.Logic.DocumentWriters.Text;
+using TigerGenerator.Logic.Helpers;
 using TigerGenerator.Logic.Models;
 using Application = Microsoft.Office.Interop.Word.Application;
+using IDataReader = TigerGenerator.Logic.DocumentReaders.IDataReader;
 
 namespace TigerGenerator.Controls.Forms
 {
@@ -45,9 +48,10 @@ namespace TigerGenerator.Controls.Forms
                     {
                         var fileName = openFileDialog.FileName;
                         //todo add Unity Container
-                        using (var excelDataReader = new ExcelDataReader())
+                        using (IDataReader excelDataReader = new ExcelDataReader())
                         {
-                            excelDataReader.SendNotification += SendNotification;
+                            if (excelDataReader is INotifyChanges)
+                                ((INotifyChanges)excelDataReader).SendNotification += SendNotification;
                             excelDataReader.ReaderDetails = fileName;
                             var response = excelDataReader.ReadData();
 
@@ -98,77 +102,27 @@ namespace TigerGenerator.Controls.Forms
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-
+            //todo add Unity Container
+            IDataWriter dataWriter = new TextDataWriter();
+            dataWriter.TargetDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "TigerGenerator");
 
             IClusterWorker worker = new ClusterWorker();
             foreach (var group in playersGroups)
             {
                 SendNotification(null, $"Work with group {group.Type} {group.Weight}");
-                //_document.Shapes["TextTitle"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
-                //if(group.Players.Count > 16)
-                //    _document.Shapes["TextTitle2"].TextFrame.TextRange.Text = $"{group.Type}\n{group.Weight}";
 
+                worker.Players = group.Players;
+                worker.Work();
 
-                //worker.Players = group.Players;
-                //worker.Work();
-                //var id = 1;
-                foreach (var cluster in worker.Clusters)
-                {
-                    foreach (var clusterItem in cluster)
-                    {
-                        //_document.Shapes[$"Player_{id++}"].TextFrame.TextRange.Text = clusterItem;
-                    }
-                }
-
-                //_document.Save();
-                //ReleaseMemory();
+                dataWriter.WriterDetails = $"{group.Type}_{group.Weight}";
+                dataWriter.WriteData(worker.Clusters);
             }
 
-            //ReleaseMemory();
             stopwatch.Stop();
             Logger.Info($"End WritePLayers. Time = {stopwatch.Elapsed}");
         }
 
-        private string GetTemplateFileName(int playersCount)
-        {
-            var fileTemplate = Path.Combine(Directory.GetCurrentDirectory(), @"Templates\Template{0}.docx");
-            int id;
-            if (playersCount <= 4)
-                id = 4;
-            else if (playersCount <= 8)
-                id = 8;
-            else if (playersCount <= 16)
-                id = 16;
-            else id = 32;
-            return string.Format(fileTemplate, id);
-        }
 
-        public void ReleaseMemory()
-        {
-            //cleanup
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-
-            //rule of thumb for releasing com objects:
-            //  never use two dots, all COM objects must be referenced and released individually
-            //  ex: [somthing].[something].[something] is bad
-
-            //release com objects to fully kill excel process from running in the background
-            if (_document != null)
-            {
-                //close and release
-                _document.Close();
-                Marshal.ReleaseComObject(_document);
-                _document = null;
-            }
-
-            if (_application != null)
-            {
-                //quit and release
-                _application.Quit();
-                Marshal.ReleaseComObject(_application);
-                _application = null;
-            }
-        }
     }
 }

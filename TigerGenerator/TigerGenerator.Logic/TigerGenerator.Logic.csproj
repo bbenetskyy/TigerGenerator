@@ -65,6 +65,7 @@
     <Compile Include="DocumentWriters\IDataWriter.cs" />
     <Compile Include="DocumentWriters\Text\TextDataWriter.cs" />
     <Compile Include="Helpers\INotifyChanges.cs" />
+    <Compile Include="Helpers\MultiLineStringBuilder.cs" />
     <Compile Include="Helpers\PlayerGroupReaderHelper.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Cluster\SimpleCluster.cs" />
