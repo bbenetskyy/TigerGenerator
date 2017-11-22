@@ -72,7 +72,7 @@ namespace TigerGenerator.Controls.Forms
                         }
                     }
                     SystemSounds.Beep.Play();
-                    Thread.Sleep(2000);
+                    Thread.Sleep(500);
                     MainForm.Finished = true;
                 }
             });

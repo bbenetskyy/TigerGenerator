@@ -25,7 +25,7 @@ namespace TigerGenerator.Logic.DocumentReaders.Excel
         public event EventHandler<string> SendNotification;
         public object ReaderDetails
         {
-            get { return _readerDetails; }
+            get => _readerDetails;
             set
             {
                 _readerDetails = value;

@@ -1,4 +1,6 @@
-﻿using NLog;
+﻿//#define GetMaxPlayerLenght
+
+using NLog;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,6 +8,7 @@ using System.Linq;
 using TigerGenerator.Logic.Cluster;
 using TigerGenerator.Logic.Helpers;
 using TigerGenerator.Logic.Models;
+using ToolsPortable;
 
 namespace TigerGenerator.Logic.DocumentWriters.Text
 {
@@ -18,7 +21,7 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
 
         public object WriterDetails
         {
-            get { return _writerDetails; }
+            get => _writerDetails;
             set
             {
                 _writerDetails = value;
@@ -40,23 +43,30 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
 
             var tigerFile = Path.Combine(TargetDirectory, $"{FileName}.txt");
             var builder = new MultiLineStringBuilder();
-            var maxPlayerLenght = GetMaxPlayerLenght(clusters);
+#if GetMaxPlayerLenght
+            var placeholderLenght = GetMaxPlayerLenght(clusters);
+#else
+            var placeholderLenght = 10;
+#endif
             var groupSize = 2;
-            var playersCount = builder.Count;
-            var lastId = builder.Count;
 
             SetClusteredPlayers(builder, clusters);
 
+            var playersCount = builder.Count;
+            var lastId = builder.Count;
+            var groupMmultiplier = 2;
+
+
             if (playersCount % 2 != 0)
             {
-                AddAdditionalFight(builder, maxPlayerLenght, ref lastId);
+                AddAdditionalFight(builder, placeholderLenght, ref lastId);
                 playersCount -= 1;
             }
 
             do
             {
-                AddNextFights(builder, maxPlayerLenght, groupSize, ref lastId);
-                groupSize *= 2;
+                AddNextFights(builder, placeholderLenght, groupSize, ref lastId);
+                groupSize *= groupMmultiplier;
             } while (groupSize <= playersCount);
 
             WriteDataToFile(tigerFile, builder.ToString());
@@ -67,56 +77,66 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
             return response;
         }
 
-        private void AddAdditionalFight(MultiLineStringBuilder builder, int maxPlayerLenght, ref int id)
+        private void AddAdditionalFight(MultiLineStringBuilder builder, int placeholderLenght, ref int id)
         {
             var lastItem = builder.Count - 1;
 
-            for (int index = 0; index < builder.Count; index++)
-            {
-                builder[index].Append(new string(' ', maxPlayerLenght));
-            }
 
-            builder[lastItem--].Append($"#{++id}.{new string('_', maxPlayerLenght)}");
-            builder[lastItem].Append($"#{++id}.{new string('_', maxPlayerLenght)}");
+            TabToNextLevel(builder);
+
+            builder[lastItem--].Append($"#{++id}.{new string('_', placeholderLenght)}");
+            builder[lastItem].Append($"#{++id}.{new string('_', placeholderLenght)}");
         }
 
-        private void AddNextFights(MultiLineStringBuilder builder, int maxPlayerLenght, int groupSize, ref int id)
+        private void AddNextFights(MultiLineStringBuilder builder, int placeholderLenght, int groupSize, ref int id)
         {
             var playersCount = builder.Count;
             var startIndex = groupSize - 1;
+            var index = groupSize / 2;
 
-            //todo repeated part !!!!
-            for (int index = 0; index < builder.Count; index++)
-            {
-                builder[index].Append(new string(' ', maxPlayerLenght));
-            }
+            TabToNextLevel(builder);
 
             do
             {
-                var index = groupSize / 2 + 1 + startIndex;
-                if (index < playersCount)
-                    builder[index].Append($"#{++id}.{new string('_', maxPlayerLenght)}");
+                builder[index].Append($"#{++id}.{new string('_', placeholderLenght)}");
+                index = groupSize / 2 + 1 + startIndex;
                 startIndex += groupSize;
-            } while (startIndex < playersCount);
+            } while (index < playersCount);
         }
 
-        public int GetMaxPlayerLenght(List<SimpleCluster> clusters) => clusters.Max(c => c.Max(p => p?.Length ?? 1)) * 2;
+        private static void TabToNextLevel(MultiLineStringBuilder builder, int tabsCount = 4)
+        {
+            for (int index = 0; index < builder.Count; index++)
+            {
+                builder[index].Append(new string('\t', tabsCount));
+            }
+        }
+
+        public int GetMaxPlayerLenght(List<SimpleCluster> clusters) => clusters.Max(GetMaxPlayerLenght);
+
+        private int GetMaxPlayerLenght(SimpleCluster cluster) => cluster.Max(p => p?.Length ?? 1);
 
         private void SetClusteredPlayers(MultiLineStringBuilder builder, List<SimpleCluster> clusters)
         {
+            var maxPlayerLenght = GetMaxPlayerLenght(clusters);
             var id = 0;
             foreach (var cluster in clusters)
             {
                 foreach (var player in cluster)
                 {
-                    builder.AppendLine($"#{++id}. {player}");
+                    if (player.IsNotBlank())
+                        builder.AppendLine($"#{++id}. {player} {new string(' ', maxPlayerLenght - player.Length)}");
                 }
             }
         }
 
+
         public void WriteDataToFile(string tigerFile, string text)
         {
-            new StreamWriter(tigerFile).WriteLine(text);
+            using (var writer = new StreamWriter(tigerFile))
+            {
+                writer.WriteLine(text);
+            }
         }
 
         private void GenerateTargetDirectory()
