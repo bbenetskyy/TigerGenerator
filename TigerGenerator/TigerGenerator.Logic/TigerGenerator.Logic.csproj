@@ -58,7 +58,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cluster\ClusterConverter.cs" />
     <Compile Include="Cluster\ClusterWorker.cs" />
+    <Compile Include="Cluster\Interfaces\IClusterConverter.cs" />
     <Compile Include="Cluster\Interfaces\IClusterWorker.cs" />
     <Compile Include="DocumentReaders\Excel\ExcelDataReader.cs" />
     <Compile Include="DocumentReaders\IDataReader.cs" />

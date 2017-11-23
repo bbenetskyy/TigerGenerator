@@ -78,18 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Templates\Template16.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\Template32.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\Template4.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Templates\Template8.docx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Templates\Template.docx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TigerGenerator.Logic\TigerGenerator.Logic.csproj">
@@ -116,9 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\TigerLogo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Templates\Template4.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

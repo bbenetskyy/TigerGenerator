@@ -9,5 +9,6 @@ namespace TigerGenerator.Logic.DocumentWriters
         string TargetDirectory { get; set; }
         object WriterDetails { get; set; }
         Response WriteData(List<SimpleCluster> clusters);
+        Response WriteData(string text);
     }
 }
