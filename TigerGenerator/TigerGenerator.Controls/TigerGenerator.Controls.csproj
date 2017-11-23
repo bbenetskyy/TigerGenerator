@@ -78,7 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Templates\Template.docx" />
+    <None Include="Templates\Template.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TigerGenerator.Logic\TigerGenerator.Logic.csproj">

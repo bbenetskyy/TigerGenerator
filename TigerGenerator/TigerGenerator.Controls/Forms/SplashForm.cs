@@ -14,6 +14,7 @@ using TigerGenerator.Logic.Cluster.Interfaces;
 using TigerGenerator.Logic.DocumentReaders.Excel;
 using TigerGenerator.Logic.DocumentWriters;
 using TigerGenerator.Logic.DocumentWriters.Text;
+using TigerGenerator.Logic.DocumentWriters.Word;
 using TigerGenerator.Logic.Helpers;
 using TigerGenerator.Logic.Models;
 using Application = Microsoft.Office.Interop.Word.Application;
