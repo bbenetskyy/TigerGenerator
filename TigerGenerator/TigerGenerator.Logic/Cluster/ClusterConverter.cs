@@ -102,7 +102,7 @@ namespace TigerGenerator.Logic.Cluster
             } while (itemsAdded < itemsForAdd);
         }
 
-        private static void TabToNextLevel(MultiLineStringBuilder builder, int tabsCount = 4)
+        private static void TabToNextLevel(MultiLineStringBuilder builder, int tabsCount = 2)
         {
             for (int index = 0; index < builder.Count; index++)
             {

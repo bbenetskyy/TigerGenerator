@@ -13,7 +13,6 @@ using TigerGenerator.Logic.Cluster;
 using TigerGenerator.Logic.Cluster.Interfaces;
 using TigerGenerator.Logic.DocumentReaders.Excel;
 using TigerGenerator.Logic.DocumentWriters;
-using TigerGenerator.Logic.DocumentWriters.Text;
 using TigerGenerator.Logic.DocumentWriters.Word;
 using TigerGenerator.Logic.Helpers;
 using TigerGenerator.Logic.Models;
@@ -104,7 +103,8 @@ namespace TigerGenerator.Controls.Forms
             stopwatch.Start();
 
             //todo add Unity Container
-            IDataWriter dataWriter = new TextDataWriter();
+            IDataWriter dataWriter = new WordDataWriter();
+            //IDataWriter dataWriter = new TextDataWriter();
             dataWriter.TargetDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 "TigerGenerator");
 
