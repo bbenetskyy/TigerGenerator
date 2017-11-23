@@ -49,13 +49,13 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
             var placeholderLenght = 10;
 #endif
             var groupSize = 2;
+            var groupMmultiplier = 2;
 
             SetClusteredPlayers(builder, clusters);
 
             var playersCount = builder.Count;
             var lastId = builder.Count;
-            var groupMmultiplier = 2;
-
+            var itemsForAdd = playersCount / groupSize;
 
             if (playersCount % 2 != 0)
             {
@@ -63,10 +63,17 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
                 playersCount -= 1;
             }
 
+            while (!IsPowerOfTwo(playersCount))
+            {
+                playersCount += 2;
+            }
+
             do
             {
-                AddNextFights(builder, placeholderLenght, groupSize, ref lastId);
+                AddNextFights(builder, placeholderLenght, groupSize, itemsForAdd, ref lastId);
+
                 groupSize *= groupMmultiplier;
+                itemsForAdd = playersCount / groupSize;
             } while (groupSize <= playersCount);
 
             WriteDataToFile(tigerFile, builder.ToString());
@@ -88,20 +95,37 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
             builder[lastItem].Append($"#{++id}.{new string('_', placeholderLenght)}");
         }
 
-        private void AddNextFights(MultiLineStringBuilder builder, int placeholderLenght, int groupSize, ref int id)
+        //todo move to other class
+        public bool IsPowerOfTwo(int x)
+        {
+            return x > 0 && (x & (x - 1)) == 0;
+        }
+
+        private void AddNextFights(MultiLineStringBuilder builder, int placeholderLenght, int groupSize, int itemsForAdd, ref int id)
         {
             var playersCount = builder.Count;
             var startIndex = groupSize - 1;
             var index = groupSize / 2;
+            var itemsAdded = 0;
 
             TabToNextLevel(builder);
 
             do
             {
-                builder[index].Append($"#{++id}.{new string('_', placeholderLenght)}");
+                if (index >= playersCount)
+                {
+                    startIndex -= groupSize + 1 - (playersCount - startIndex);
+                    index = groupSize / 2 + 1 + startIndex;
+                }
+
+                if (index < playersCount)
+                    builder[index].Append($"#{++id}.{new string('_', placeholderLenght)}");
+
                 index = groupSize / 2 + 1 + startIndex;
                 startIndex += groupSize;
-            } while (index < playersCount);
+
+                itemsAdded++;
+            } while (itemsAdded < itemsForAdd);
         }
 
         private static void TabToNextLevel(MultiLineStringBuilder builder, int tabsCount = 4)
