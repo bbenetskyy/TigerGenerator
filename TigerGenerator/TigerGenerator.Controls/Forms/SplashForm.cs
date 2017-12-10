@@ -1,4 +1,5 @@
-﻿using DevExpress.XtraSplashScreen;
+﻿//#define WordWriter
+using DevExpress.XtraSplashScreen;
 using Microsoft.Office.Interop.Word;
 using NLog;
 using System;
@@ -13,7 +14,11 @@ using TigerGenerator.Logic.Cluster;
 using TigerGenerator.Logic.Cluster.Interfaces;
 using TigerGenerator.Logic.DocumentReaders.Excel;
 using TigerGenerator.Logic.DocumentWriters;
+#if WordWriter
 using TigerGenerator.Logic.DocumentWriters.Word;
+#else
+using TigerGenerator.Logic.DocumentWriters.Text;
+#endif
 using TigerGenerator.Logic.Helpers;
 using TigerGenerator.Logic.Models;
 using Application = Microsoft.Office.Interop.Word.Application;
@@ -103,8 +108,11 @@ namespace TigerGenerator.Controls.Forms
             stopwatch.Start();
 
             //todo add Unity Container
+#if WordWriter
             IDataWriter dataWriter = new WordDataWriter();
-            //IDataWriter dataWriter = new TextDataWriter();
+#else
+            IDataWriter dataWriter = new TextDataWriter();
+#endif
             dataWriter.TargetDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
                 "TigerGenerator");
 

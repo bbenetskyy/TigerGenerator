@@ -49,7 +49,7 @@ namespace TigerGenerator.Logic.DocumentWriters.Text
 
         public Response WriteData(List<SimpleCluster> clusters)
         {
-            //todo addunity container
+            //todo add unity container
             IClusterConverter converter = new ClusterConverter();
             return WriteData(converter.ConvertToString(clusters));
         }
