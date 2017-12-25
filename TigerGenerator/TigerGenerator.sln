@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerGenerator", "TigerGenerator\TigerGenerator.csproj", "{102E11E6-660E-480A-AD89-B711D39D7C92}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerGenerator.Controls", "TigerGenerator.Controls\TigerGenerator.Controls.csproj", "{8D2D0DDD-9949-479A-A2E7-89463E34AAFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerGenerator.Logic", "TigerGenerator.Logic\TigerGenerator.Logic.csproj", "{6160822B-CB2F-44CB-A5BA-90EC638015B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TigerGenerator.WPF.TigerLoader", "TigerGenerator.WPF.TigerLoader\TigerGenerator.WPF.TigerLoader.csproj", "{7DC3B767-AA99-4DCB-B9E0-37B56E93FC3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{102E11E6-660E-480A-AD89-B711D39D7C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{102E11E6-660E-480A-AD89-B711D39D7C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{102E11E6-660E-480A-AD89-B711D39D7C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{102E11E6-660E-480A-AD89-B711D39D7C92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D2D0DDD-9949-479A-A2E7-89463E34AAFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D2D0DDD-9949-479A-A2E7-89463E34AAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D2D0DDD-9949-479A-A2E7-89463E34AAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{6160822B-CB2F-44CB-A5BA-90EC638015B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6160822B-CB2F-44CB-A5BA-90EC638015B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6160822B-CB2F-44CB-A5BA-90EC638015B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC3B767-AA99-4DCB-B9E0-37B56E93FC3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC3B767-AA99-4DCB-B9E0-37B56E93FC3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC3B767-AA99-4DCB-B9E0-37B56E93FC3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC3B767-AA99-4DCB-B9E0-37B56E93FC3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,7 +22,7 @@ namespace TigerGenerator.Controls.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace TigerGenerator.Controls.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TigerGenerator.Controls.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace TigerGenerator.Controls.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace TigerGenerator.Controls.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Was raised {0} errors. Please check Logs..
         /// </summary>
-        internal static string SplashForm_Errors_Log {
+        public static string SplashForm_Errors_Log {
             get {
                 return ResourceManager.GetString("SplashForm_Errors_Log", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace TigerGenerator.Controls.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Some exception was thrown, please see logs.
         /// </summary>
-        internal static string SplashForm_Errors_Message {
+        public static string SplashForm_Errors_Message {
             get {
                 return ResourceManager.GetString("SplashForm_Errors_Message", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace TigerGenerator.Controls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap TigerLogo {
+        public static System.Drawing.Bitmap TigerLogo {
             get {
                 object obj = ResourceManager.GetObject("TigerLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
@@ -91,7 +91,7 @@ namespace TigerGenerator.Controls.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon TigerLogo1 {
+        public static System.Drawing.Icon TigerLogo1 {
             get {
                 object obj = ResourceManager.GetObject("TigerLogo1", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
