@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TigerGenerator.WPF.TigerLoader.Properties {
+namespace TigerGenerator.WPF.TigerChampionshipScheduler.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TigerGenerator.Logic.Properties {
+namespace TigerGenerator.WPF.TigerChampionshipScheduler.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TigerGenerator.Logic.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TigerGenerator.Logic.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TigerGenerator.WPF.TigerChampionshipScheduler.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,24 +57,6 @@ namespace TigerGenerator.Logic.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Player_.
-        /// </summary>
-        internal static string Player_Item {
-            get {
-                return ResourceManager.GetString("Player_Item", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TextTitle.
-        /// </summary>
-        internal static string Title_Item {
-            get {
-                return ResourceManager.GetString("Title_Item", resourceCulture);
             }
         }
     }
