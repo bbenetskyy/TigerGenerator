@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +20,11 @@ namespace TigerGenerator.Logic.DocumentReaders.Tiger
             {
                 _readerDetails = value;
                 if (_readerDetails is string fileName)
-                    FileName = fileName;
+                    FullPath = fileName;
             }
         }
 
-        public string FileName { get; set; }
+        public string FullPath { get; set; }
 
         public void Dispose()
         {
@@ -31,7 +33,19 @@ namespace TigerGenerator.Logic.DocumentReaders.Tiger
 
         public Response<TigerFileData> ReadData()
         {
-            throw new NotImplementedException();
+            var response = new Response<TigerFileData>();
+
+            try
+            {
+                var jObject = JObject.Parse(File.ReadAllText(FullPath));
+                response.ReturnValue = jObject.ToObject<TigerFileData>();
+            }
+            catch (Exception ex)
+            {
+                response.Errors.Add(ex);
+            }
+
+            return response;
         }
     }
 }

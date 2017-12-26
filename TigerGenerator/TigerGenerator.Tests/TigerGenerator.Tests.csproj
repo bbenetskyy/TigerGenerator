@@ -57,8 +57,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestFiles\InFile.tiger" />
     <None Include="packages.config" />
+    <None Include="TestDataFile.tiger">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TigerGenerator.Logic\TigerGenerator.Logic.csproj">
