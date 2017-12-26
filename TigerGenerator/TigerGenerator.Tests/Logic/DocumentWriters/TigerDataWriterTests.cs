@@ -112,6 +112,9 @@ namespace TigerGenerator.Tests.Logic.DocumentWriters
 
             if (File.Exists(_filePath))
                 File.Delete(_filePath);
+
+            if (Directory.Exists(_filePath.Split('\\')[0]))
+                Directory.Delete(_filePath.Split('\\')[0]);
         }
 
         [TestMethod]

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +30,24 @@ namespace TigerGenerator.Logic.DocumentWriters.Tiger
 
         public Response<TigerFileData> WriteData(TigerFileData data)
         {
-            throw new NotImplementedException();
+            var response = new Response<TigerFileData>();
+            try
+            {
+                CreateDirectory();
+                var filePath = Path.Combine(TargetDirectory, FileName);
+                File.WriteAllText(filePath, JsonConvert.SerializeObject(data));
+            }
+            catch (Exception ex)
+            {
+                response.Errors.Add(ex);
+            }
+            return response;
+        }
+
+        private void CreateDirectory()
+        {
+            if (!Directory.Exists(TargetDirectory))
+                Directory.CreateDirectory(TargetDirectory);
         }
     }
 }
